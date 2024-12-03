@@ -5,6 +5,8 @@
 
 This is an Open Broadcaster Software (OBS) Browser-Source Overlay, which displays information about the VRChat World you are currently in.
 
+https://github.com/user-attachments/assets/56dc1697-be2e-4b74-b7c0-f66923c22ce9
+
 ## Installation
 
 Full builds are available on the [releases page](https://github.com/philippgitpush/vrc-obs-world-overlay/releases) of this repository. You can either use the **win-unpacked** version for a portable option or install the provided installer.
