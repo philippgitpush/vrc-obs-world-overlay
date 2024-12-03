@@ -1,0 +1,48 @@
+{
+  "name": "vrc-obs-world-overlay",
+  "version": "1.0.0",
+  "description": "OBS Overlay, which displays information about the VRChat World you are currently in.",
+  "main": "./src/electron/main.js",
+  "scripts": {
+    "dev": "concurrently \"npm run vite\" \"npm run electron\"",
+    "build": "vite build && electron-builder",
+    "vite": "vite --port 3000 --host 127.0.0.1",
+    "vite-build": "vite build",
+    "electron": "electron ."
+  },
+  "build": {
+    "appId": "com.philippgitpush.vrc-obs-world-overlay",
+    "productName": "VRC OBS World Overlay",
+    "directories": {
+      "output": "build"
+    },
+    "win": {
+      "target": ["nsis"]
+    }
+  },
+  "author": "philippgitpush",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "postcss": "^8.4.49",
+    "sass-embedded": "^1.81.1",
+    "tailwindcss": "^3.4.15",
+    "vite": "^5.4.11",
+    "vite-plugin-vue-devtools": "^7.6.7"
+  },
+  "dependencies": {
+    "animejs": "^3.2.2",
+    "axios": "^1.7.8",
+    "cors": "^2.8.5",
+    "electron-store": "^10.0.0",
+    "express": "^4.21.1",
+    "sqlite3": "^5.1.7",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  }
+}
