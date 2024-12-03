@@ -1,5 +1,5 @@
 > [!NOTE]
-> The VRChat OBS World Overlay is still under development, and this repository is intended for public testing. Build instructions for developers may change at any time. If you encounter any issues, feel free to reach out for help by either [opening a GitHub issue](https://github.com/philippgitpush/vrc-obs-world-overlay/issues) or contacting me on Discord @philippuccino.
+> The VRChat OBS World Overlay is still under development, and this repository is intended for public testing. Build instructions for developers may change at any time. If you encounter any issues, feel free to reach out for help by either [opening a GitHub issue](https://github.com/philippgitpush/vrc-obs-world-overlay/issues) or contacting me on Discord: @philippuccino
 
 # VRChat OBS World Overlay
 
@@ -15,9 +15,9 @@ Support for macOS and Linux is not available at this time.
 
 ## Usage
 
-When you run the application for the first time, you will need to provide your VRChat AuthCookie. This can be retrieved from your browser while logged into the VRChat website (VRChat.com).
+When you run the application for the first time, you will need to provide your VRChat AuthCookie. This can be retrieved from your browser while logged into the [VRChat](https://vrchat.com/home/) website.
 
-You will also need to specify the path to your VRCX installation’s AppData folder. This overlay relies on a database file provided by VRCX, which logs the worlds you visit in-game.
+You will also need to specify the path to your VRCX installation’s AppData folder. This overlay relies on a database file provided by VRCX, which logs the worlds you visit in-game. Width and height should preferably be set to 1920x1080.
 
 ## Overlay structure
 
