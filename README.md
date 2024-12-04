@@ -24,7 +24,7 @@ You will also need to specify the path to your VRCX installation’s AppData fol
 > [!NOTE]
 > Changing the HTML or CSS of the overlay involves running Vite in the build process, this means that **you will need to make any changes inside the development environment** and run the build process when you're finished with your desired changes.
 
-Once you are running the application or its development environment, the overlay can be accessed at [http://localhost:3000/](http://localhost:3000/) which is the URL you will be using in your OBS Browser-Source.
+Once you are running the application or its development environment, the overlay can be accessed at [http://localhost:1412/](http://localhost:1412/) which is the URL you will be using in your OBS Browser-Source.
 
 You can find the full markup and CSS for the overlay in `/src/views/OverlayView.vue`. Keep in mind that this project uses [Tailwind CSS](https://tailwindcss.com/docs/box-shadow), so you can take advantage of its complete library. This project also uses the javascript framework [Vue.js](https://vuejs.org/guide/essentials/template-syntax.html) and includes [Anime.js](https://animejs.com/) for animations. You can write your styles in [SCSS](https://sass-lang.com/documentation/syntax/) style too.
 

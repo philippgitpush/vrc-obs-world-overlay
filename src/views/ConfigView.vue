@@ -48,7 +48,7 @@
 <script setup>
   import { onMounted } from 'vue';
 
-  const overlayUrl = 'http://localhost:3000/';
+  const overlayUrl = 'http://localhost:1412/';
 
   function copyOverlayUrl() {
     const input = document.createElement('input');
