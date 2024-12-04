@@ -43,7 +43,7 @@ async function fetchWorldData(worldId) {
   const url = `https://api.vrchat.cloud/api/1/worlds/${worldId}`;
   const authCookie = store.get('option_authCookie');
 
-  const headers = { 'User-Agent': 'VRC OBS World Overlay/1.0.0 adeleine1412@gmail.com' };
+  const headers = { 'User-Agent': 'VRC OBS World Overlay/1.0.1 adeleine1412@gmail.com' };
   if (authCookie) headers['Cookie'] = `auth=${authCookie}`;
 
   try {

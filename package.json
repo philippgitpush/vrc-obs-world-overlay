@@ -1,6 +1,6 @@
 {
   "name": "vrc-obs-world-overlay",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "OBS Overlay, which displays information about the VRChat World you are currently in.",
   "main": "./src/electron/main.js",
   "scripts": {
