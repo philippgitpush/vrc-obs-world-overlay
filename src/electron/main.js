@@ -14,7 +14,7 @@ const appPort = isDev ? 3000 : 1412;
 // CORS: Block all non-local requests
 server.use(cors({
   origin: (origin, callback) => {
-    if (origin !== `http://localhost:${appPort}` && origin) callback('Blocked request from invalid origin', false);
+    if (origin !== `http://localhost:${appPort}` && origin) return callback('Blocked request from invalid origin', false);
     callback(null, true);
   },
   methods: ['GET'],
