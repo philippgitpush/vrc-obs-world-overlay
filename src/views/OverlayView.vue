@@ -141,8 +141,6 @@
       if (last_world_id == world_data['id']) return;
       last_world_id = world_data['id'];
 
-      console.log('current world', world_data['id']);
-
       // update world info ui / overlay data
       if (elem_world_image) swapImage(world_data['image']);
       if (elem_world_name) swapTextAnimated('world_name', world_data['name']);
