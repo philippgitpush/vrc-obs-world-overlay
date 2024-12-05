@@ -35,7 +35,18 @@ server.get(['/', '/config'], (req, res) => {
 
 // Electron store route
 server.get('/settings', (req, res) => {
-  const settings = store.store;
+  const keys = [
+    'option_appPort',
+    'option_liveMode',
+    'data_worldInfo',
+    'data_lastWorldId'
+  ];
+
+  const settings = keys.reduce((filtered, key) => {
+    if (key in store.store) filtered[key] = store.store[key];
+    return filtered;
+  }, {});
+
   res.json(settings);
 });
 
@@ -48,9 +59,9 @@ app.whenReady().then(() => {
 
   const win = new BrowserWindow({
     autoHideMenuBar: true,
-    minHeight: 300,
+    minHeight: 206,
     minWidth: 500,
-    height: 300,
+    height: 206,
     width: 500,
     webPreferences: {
       preload: path.join(app.getAppPath(), './src/electron/preload.js'),
