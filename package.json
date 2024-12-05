@@ -17,7 +17,17 @@
       "output": "build"
     },
     "win": {
-      "target": ["nsis"]
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "VRC-OBS-World-Overlay-${version}-${os}.${ext}"
     }
   },
   "author": "philippgitpush",
