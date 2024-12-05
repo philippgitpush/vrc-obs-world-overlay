@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, session, BrowserWindow, ipcMain } from 'electron';
 import Store from 'electron-store';
 import express from 'express';
 import cors from 'cors';
@@ -11,18 +11,20 @@ const store = new Store();
 const server = express();
 const appPort = isDev ? 3000 : 1412;
 
-if (isDev) {
-  const corsOptions = {
-    origin: '*',
-    methods: ['GET'],
-  };
-  
-  server.use(cors(corsOptions));
-  server.use(express.static(path.join(app.getAppPath(), './src')));
-} else {
-  server.use(express.static(distPath));
-}
+// CORS: Block all non-local requests
+server.use(cors({
+  origin: (origin, callback) => {
+    if (origin !== `http://localhost:${appPort}` && origin) callback('Blocked request from invalid origin', false);
+    callback(null, true);
+  },
+  methods: ['GET'],
+}));
 
+// Switch between vite and express path/port depending on environment
+server.use(express.static(isDev ? path.join(app.getAppPath(), './src') : distPath));
+store.set('option_appPort', appPort);
+
+// Overlay and config route
 server.get(['/', '/config'], (req, res) => {
   if (isDev) {
     res.sendFile(path.join(app.getAppPath(), 'index.html'));
@@ -31,6 +33,7 @@ server.get(['/', '/config'], (req, res) => {
   }
 });
 
+// Electron store route
 server.get('/settings', (req, res) => {
   const settings = store.store;
   res.json(settings);
@@ -40,7 +43,7 @@ let overlayServer;
 
 app.whenReady().then(() => {
   overlayServer = server.listen(1412, () => {
-    console.log('Settings JSON available at http://localhost:1412/settings');
+    console.log(`Settings JSON available at http://localhost:1412/settings`);
   });
 
   const win = new BrowserWindow({
@@ -60,6 +63,11 @@ app.whenReady().then(() => {
   });
 
   win.loadURL(`http://localhost:${appPort}/config`);
+
+  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    if (!details.requestHeaders['Origin']) details.requestHeaders['Origin'] = `http://localhost:${appPort}`;
+    callback({ requestHeaders: details.requestHeaders });
+  });
 });
 
 // Stop the server when the app is closed

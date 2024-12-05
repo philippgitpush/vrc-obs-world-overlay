@@ -1,12 +1,12 @@
 {
   "name": "vrc-obs-world-overlay",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "OBS Overlay, which displays information about the VRChat World you are currently in.",
   "main": "./src/electron/main.js",
   "scripts": {
     "dev": "concurrently \"npm run vite\" \"npm run electron\"",
     "build": "vite build && electron-builder",
-    "vite": "vite --port 3000 --host 127.0.0.1",
+    "vite": "vite --port 3000 --host localhost",
     "vite-build": "vite build",
     "electron": "electron ."
   },

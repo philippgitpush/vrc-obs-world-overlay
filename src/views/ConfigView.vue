@@ -34,10 +34,10 @@
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto">
           Save
         </button>
-        <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full mr-2" @click="openOverlayUrl">
+        <button v-if="overlayUrl" type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full mr-2" @click="openOverlayUrl">
           Preview Overlay
         </button>
-        <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" @click="copyOverlayUrl">
+        <button v-if="overlayUrl" type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" @click="copyOverlayUrl">
           Copy Overlay URL
         </button>
       </div>
@@ -46,13 +46,13 @@
 </template>
 
 <script setup>
-  import { onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
 
-  const overlayUrl = 'http://localhost:1412/';
+  const overlayUrl = ref();
 
   function copyOverlayUrl() {
     const input = document.createElement('input');
-    input.value = overlayUrl;
+    input.value = overlayUrl.value;
     document.body.appendChild(input);
     input.select();
     document.execCommand('copy');
@@ -60,7 +60,7 @@
   }
 
   function openOverlayUrl() {
-    window.open(overlayUrl, '_blank');
+    window.open(overlayUrl.value, '_blank');
   }
 
   onMounted(() => {
@@ -78,6 +78,9 @@
     });
     window.electronAPI.getConfig('option_liveMode').then((value) => {
       liveModeInput.checked = value || false;
+    });
+    window.electronAPI.getConfig('option_appPort').then((value) => {
+      overlayUrl.value = `http://localhost:${value}/`;
     });
 
     // Handle form submission
