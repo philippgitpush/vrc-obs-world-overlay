@@ -88,7 +88,6 @@
     }
 
     let last_world_id = '';
-    let first_load = true;
 
     async function fetchData(url) {
       try {
@@ -108,7 +107,7 @@
       }
 
       // populate variables
-      world_data['id'] = data.data_lastWorldId;
+      world_data['id'] = data.data_worldInfo.id;
       world_data['name'] = data.data_worldInfo.name;
       world_data['author'] = data.data_worldInfo.authorName;
       world_data['image'] = data.data_worldInfo.imageUrl;
@@ -141,6 +140,8 @@
       // skip update if the new world_id is same as previouse
       if (last_world_id == world_data['id']) return;
       last_world_id = world_data['id'];
+
+      console.log('current world', world_data['id']);
 
       // update world info ui / overlay data
       if (elem_world_image) swapImage(world_data['image']);
