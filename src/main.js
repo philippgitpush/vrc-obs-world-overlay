@@ -1,5 +1,4 @@
 import './assets/css/index.css'
-/* import './assets/css/main.min.css' */
 
 import { createApp, provide } from 'vue';
 import App from './App.vue';
