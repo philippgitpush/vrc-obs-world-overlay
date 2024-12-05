@@ -15,16 +15,16 @@ Support for macOS and Linux is not available at this time.
 
 ## Usage
 
-When you run the application for the first time, you will need to provide your VRChat AuthCookie. This can be retrieved from your browser while logged into the [VRChat](https://vrchat.com/home/) website.
+Once you are running the application, the overlay can be accessed at [http://localhost:1412/](http://localhost:1412/) which is the URL you will be using in your OBS Browser-Source.
 
-You will also need to specify the path to your VRCX installation’s AppData folder. This overlay relies on a database file provided by VRCX, which logs the worlds you visit in-game. Width and height should preferably be set to 1920x1080.
+You might need to specify the path to your VRCX installation’s AppData folder if its not in the expected default directory. This overlay relies on a database file provided by VRCX. Width and height should preferably be set to 1920x1080.
 
 ## Overlay structure
 
 > [!NOTE]
 > Changing the HTML or CSS of the overlay involves running Vite in the build process, this means that **you will need to make any changes inside the development environment** and run the build process when you're finished with your desired changes.
 
-Once you are running the application or its development environment, the overlay can be accessed at [http://localhost:1412/](http://localhost:1412/) which is the URL you will be using in your OBS Browser-Source.
+**The port used for the OBS overlay changes in the development environment to `3000` instead of 1412.**
 
 You can find the full markup and CSS for the overlay in `/src/views/OverlayView.vue`. Keep in mind that this project uses [Tailwind CSS](https://tailwindcss.com/docs/box-shadow), so you can take advantage of its complete library. This project also uses the javascript framework [Vue.js](https://vuejs.org/guide/essentials/template-syntax.html) and includes [Anime.js](https://animejs.com/) for animations. You can write your styles in [SCSS](https://sass-lang.com/documentation/syntax/) style too.
 

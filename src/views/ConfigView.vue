@@ -3,15 +3,6 @@
 
     <div class="md:flex md:items-center mb-6">
       <div class="md:w-1/3 mb-2">
-        <label for="option_authCookie" class="uppercase font-semibold text-gray-600">Auth Cookie</label>
-      </div>
-      <div class="md:w-2/3">
-        <input type="password" id="option_authCookie" name="option_authCookie" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="authcookie_f1a2b9c4 ...">
-      </div>
-    </div>
-
-    <div class="md:flex md:items-center mb-6">
-      <div class="md:w-1/3 mb-2">
         <label for="option_vrcxPath" class="uppercase font-semibold text-gray-600">VRCX AppData Path</label>
       </div>
       <div class="md:w-2/3">
@@ -64,15 +55,11 @@
   }
 
   onMounted(() => {
-    const authCookieInput = document.getElementById('option_authCookie');
     const vrcxPathInput = document.getElementById('option_vrcxPath');
     const liveModeInput = document.getElementById('option_liveMode');
     const form = document.getElementById('config-form');
 
     // Load saved config on startup
-    window.electronAPI.getConfig('option_authCookie').then((value) => {
-      authCookieInput.value = value || '';
-    });
     window.electronAPI.getConfig('option_vrcxPath').then((value) => {
       vrcxPathInput.value = value || '';
     });
@@ -87,12 +74,10 @@
     form.addEventListener('submit', (event) => {
       event.preventDefault();
 
-      const option_authCookie = authCookieInput.value;
       const option_liveMode = liveModeInput.checked;
       const option_vrcxPath = vrcxPathInput.value;
 
       // Save values to config
-      window.electronAPI.setConfig('option_authCookie', option_authCookie);
       window.electronAPI.setConfig('option_vrcxPath', option_vrcxPath);
       window.electronAPI.setConfig('option_liveMode', option_liveMode);
     });
