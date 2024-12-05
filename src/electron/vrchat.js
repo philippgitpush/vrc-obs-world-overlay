@@ -7,6 +7,7 @@ import fs from 'fs';
 
 const store = new Store();
 
+let lastWorldId = null;
 let vrcxWorldId = null;
 let vrcxAuthCookie = null;
 
@@ -71,10 +72,8 @@ function queryDatabaseForAuthCookie(dbPath, callback) {
 
 // Update the stored world id and fetch new world data if needed
 function handleWorldChange() {
-  const lastWorldId = store.get('data_lastWorldId');
-
   if (lastWorldId !== vrcxWorldId) {
-    store.set('data_lastWorldId', vrcxWorldId);
+    lastWorldId = vrcxWorldId;
     console.log('World changed to:', vrcxWorldId);
     fetchWorldData();
   }

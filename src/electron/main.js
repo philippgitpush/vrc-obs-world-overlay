@@ -37,9 +37,7 @@ server.get(['/', '/config'], (req, res) => {
 server.get('/settings', (req, res) => {
   const keys = [
     'option_appPort',
-    'option_liveMode',
-    'data_worldInfo',
-    'data_lastWorldId'
+    'data_worldInfo'
   ];
 
   const settings = keys.reduce((filtered, key) => {
