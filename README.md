@@ -67,3 +67,7 @@ This will build a full version of the application and generate installation or e
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/philippgitpush/vrc-obs-world-overlay/blob/main/LICENSE) file for details.
+
+## Credits
+
+Icons taken from [Phosphor Icons](https://phosphoricons.com/). Font taken from [Google Fonts](https://fonts.google.com/specimen/Source+Sans+3).
