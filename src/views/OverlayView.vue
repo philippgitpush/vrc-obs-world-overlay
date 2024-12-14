@@ -101,16 +101,16 @@
 
     function parseWorldInfo(data) {
       // return if there is no world data to go by
-      if (!data || !data.data_worldInfo) {
+      if (!data || !data.overlay.world_data) {
         console.error('No world data found.');
         return;
       }
 
       // populate variables
-      world_data['id'] = data.data_worldInfo.id;
-      world_data['name'] = data.data_worldInfo.name;
-      world_data['author'] = data.data_worldInfo.authorName;
-      world_data['image'] = data.data_worldInfo.imageUrl;
+      world_data['id'] = data.overlay.world_data.id;
+      world_data['name'] = data.overlay.world_data.name;
+      world_data['author'] = data.overlay.world_data.authorName;
+      world_data['image'] = data.overlay.world_data.imageUrl;
     }
 
     function checkPlatformCompatibility(packages) {
@@ -156,7 +156,7 @@
       // start data / ui update
       await fetchData(url).then((data) => {
         parseWorldInfo(data);
-        checkPlatformCompatibility(data.data_worldInfo.unityPackages);
+        checkPlatformCompatibility(data.overlay.world_data.unityPackages);
         updateWorldInfoUI();
       });
     }

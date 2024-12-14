@@ -1,85 +1,56 @@
 <template>
-  <form id="config-form" class="container mx-auto p-4">
+  <div class="grid grid-cols-[auto,1fr] absolute top-0 left-0 w-screen h-screen overflow-hidden">
 
-    <div class="md:flex md:items-center mb-6">
-      <div class="md:w-1/3 mb-2">
-        <label for="option_vrcxPath" class="uppercase font-semibold text-gray-600">VRCX AppData Path</label>
-      </div>
-      <div class="md:w-2/3">
-        <input type="text" id="option_vrcxPath" name="option_vrcxPath" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="C:\Users\<User>\AppData\Roaming\VRCX">
-      </div>
-    </div>
-
-    <div class="md:flex md:items-center mb-6">
-      <div class="md:w-1/3">
-        <label class="hidden" for="option_liveMode">Live mode:</label>
-      </div>
-      <div class="md:w-2/3">
-        <input class="hidden" type="checkbox" id="option_liveMode" name="option_liveMode">
-      </div>
-    </div>
-
-    <div class="md:flex md:items-center">
-      <div class="md:w-1/3"></div>
-      <div class="md:w-2/3 flex">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-auto">
-          Save
+    <div class="bg-gray-100 p-2 w-44 flex flex-col justify-between overflow-y-auto">
+      <div class="flex flex-col gap-1">
+        <button
+          v-for="item in pages"
+          :key="item.id"
+          @click="currentPage = item.id"
+          :class="{ 'bg-gray-200': currentPage === item.id }"
+          class="p-2 w-full flex gap-3 items-center rounded transition-colors"
+        >
+          <component class="h-5 w-auto" :is="item.icon" /> {{ item.label }}
         </button>
-        <button v-if="overlayUrl" type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full mr-2" @click="openOverlayUrl">
-          Preview Overlay
-        </button>
-        <button v-if="overlayUrl" type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" @click="copyOverlayUrl">
-          Copy Overlay URL
+      </div>
+      <div class="p-2">
+        <button @click="openExternalUrl('https://github.com/philippgitpush/vrc-obs-world-overlay')">
+          v{{ packageJson.version }}
         </button>
       </div>
     </div>
-  </form>
+
+    <div class="w-full h-full overflow-y-auto">
+      <component :is="currentPageComponent" />
+    </div>
+
+  </div>
 </template>
 
 <script setup>
-  import { onMounted, ref } from 'vue';
+  import packageJson from '../../package.json' with { type: 'json' };
+  import { ref, computed } from 'vue';
 
-  const overlayUrl = ref();
+  // Config pages
+  import AppearanceConfig from '../components/config/AppearanceConfig.vue';
+  import GeneralConfig from '../components/config/GeneralConfig.vue';
 
-  function copyOverlayUrl() {
-    const input = document.createElement('input');
-    input.value = overlayUrl.value;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
+  // Icons
+  import FadesIcon from '../components/icons/phosphor/regular/Fades.vue';
+  import PaintBrushBroadIcon from '../components/icons/phosphor/regular/PaintBrushBroad.vue';
+
+  const pages = [
+    { id: 'general-config', label: 'General', component: GeneralConfig, icon: FadesIcon },
+    { id: 'appearance-config', label: 'Appearance', component: AppearanceConfig, icon: PaintBrushBroadIcon },
+  ];
+
+  const currentPage = ref(pages[0].id);
+
+  const openExternalUrl = (url) => {
+    window.electronAPI.openExternalUrl(url);
   }
 
-  function openOverlayUrl() {
-    window.open(overlayUrl.value, '_blank');
-  }
-
-  onMounted(() => {
-    const vrcxPathInput = document.getElementById('option_vrcxPath');
-    const liveModeInput = document.getElementById('option_liveMode');
-    const form = document.getElementById('config-form');
-
-    // Load saved config on startup
-    window.electronAPI.getConfig('option_vrcxPath').then((value) => {
-      vrcxPathInput.value = value || '';
-    });
-    window.electronAPI.getConfig('option_liveMode').then((value) => {
-      liveModeInput.checked = value || false;
-    });
-    window.electronAPI.getConfig('option_appPort').then((value) => {
-      overlayUrl.value = `http://localhost:${value}/`;
-    });
-
-    // Handle form submission
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const option_liveMode = liveModeInput.checked;
-      const option_vrcxPath = vrcxPathInput.value;
-
-      // Save values to config
-      window.electronAPI.setConfig('option_vrcxPath', option_vrcxPath);
-      window.electronAPI.setConfig('option_liveMode', option_liveMode);
-    });
-  })
+  const currentPageComponent = computed(() => {
+    return pages.find(page => page.id === currentPage.value)?.component || null;
+  });
 </script>

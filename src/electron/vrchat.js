@@ -1,25 +1,23 @@
 import packageJson from '../../package.json' with { type: 'json' };
-import Store from 'electron-store';
+import store from './store.js';
 import sqlite3 from 'sqlite3';
 import axios from 'axios';
 import path from 'path';
 import fs from 'fs';
-
-const store = new Store();
 
 let lastWorldId = null;
 let vrcxWorldId = null;
 let vrcxAuthCookie = null;
 
 function getVrcxPath() {
-  return store.get('option_vrcxPath');
+  return store.get('app.vrcx');
 }
 
 // Check for default VRCX installation and use it if the user hasn't set one already
 function checkVrcxInstallation() {
   if (getVrcxPath()) return;
   const defaultPath = path.join(process.env.HOME || process.env.USERPROFILE, 'AppData', 'Roaming', 'VRCX');
-  if (fs.existsSync(defaultPath)) store.set('option_vrcxPath', defaultPath);
+  if (fs.existsSync(defaultPath)) store.set('app.vrcx', defaultPath);
 }
 
 // Query the database for the latest world id
@@ -90,7 +88,7 @@ async function fetchWorldData() {
 
   try {
     const response = await axios.get(url, { headers });
-    store.set('data_worldInfo', response.data);
+    store.set('overlay.world_data', response.data);
 
     console.log(`Fetched world data for: "${response.data.name}" by "${response.data.authorName}"`);
   } catch (error) {
