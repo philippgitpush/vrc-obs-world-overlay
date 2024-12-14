@@ -1,10 +1,14 @@
 {
   "name": "vrc-obs-world-overlay",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "OBS Overlay that displays information about the VRChat World you are currently in.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philippgitpush/vrc-obs-world-overlay.git"
+  },
   "main": "./src/electron/main.js",
   "scripts": {
-    "dev": "concurrently \"npm run vite\" \"npm run electron\"",
+    "dev": "concurrently --kill-others \"npm run vite\" \"npm run electron\"",
     "build": "vite build && electron-builder",
     "vite": "vite --port 3000 --host localhost",
     "vite-build": "vite build",
@@ -20,14 +24,23 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "zip",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
+      "icon": "source/vrc-obs-world-overlay-logo.ico",
       "artifactName": "VRC-OBS-World-Overlay-${version}-${os}.${ext}"
+    },
+    "nsis": {
+      "installerIcon": "source/vrc-obs-world-overlay-logo.ico",
+      "deleteAppDataOnUninstall": true
     }
   },
   "author": "philippgitpush",
