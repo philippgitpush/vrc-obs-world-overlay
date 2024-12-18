@@ -66,9 +66,9 @@ app.whenReady().then(() => {
 
   const dashboard_window = new BrowserWindow({
     autoHideMenuBar: true,
-    minHeight: 200,
+    minHeight: 470,
     minWidth: 400,
-    height: 200,
+    height: 470,
     width: 400,
     webPreferences: {
       preload: path.join(app.getAppPath(), './src/electron/preload.js'),
