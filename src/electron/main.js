@@ -27,11 +27,7 @@ store.set('app.port', appPort);
 
 // Overlay and config route
 server.get(['/', '/config', '/dashboard'], (req, res) => {
-  if (isDev) {
-    res.sendFile(path.join(app.getAppPath(), 'index.html'));
-  } else {
-    res.sendFile(path.join(distPath, 'index.html'));
-  }
+  res.sendFile(path.join(isDev ? app.getAppPath() : distPath, 'index.html'));
 });
 
 // Electron store route
@@ -66,10 +62,10 @@ app.whenReady().then(() => {
 
   const dashboard_window = new BrowserWindow({
     autoHideMenuBar: true,
-    minHeight: 470,
-    minWidth: 400,
-    height: 470,
-    width: 400,
+    minHeight: 500,
+    minWidth: 470,
+    height: 500,
+    width: 470,
     webPreferences: {
       preload: path.join(app.getAppPath(), './src/electron/preload.js'),
       contextIsolation: true,
@@ -91,16 +87,14 @@ app.whenReady().then(() => {
 // Stop the server when the app is closed
 app.on('window-all-closed', () => {
   if (overlayServer) overlayServer.close();
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
 
 // Listen for IPC messages to handle config operations
 ipcMain.handle('get-config', (event, key) => { return store.get(key) });
 ipcMain.handle('set-config', (event, key, value) => { store.set(key, value) });
 ipcMain.handle('delete-config', (event, key) => { store.delete(key) });
-ipcMain.handle('open-external-url', (event, url) => { shell.openExternal(url) })
+ipcMain.handle('open-external-url', (event, url) => { shell.openExternal(url) });
 ipcMain.handle('open-config-window', (event) => {
   if (!config_window) {
     config_window = new BrowserWindow({
@@ -124,7 +118,7 @@ ipcMain.handle('open-config-window', (event) => {
   } else {
     config_window.focus();
   }
-})
+});
 ipcMain.handle('open-directory', async () => {
   const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['openDirectory']
@@ -134,4 +128,4 @@ ipcMain.handle('open-directory', async () => {
   } else {
     return filePaths[0]
   }
-})
+});

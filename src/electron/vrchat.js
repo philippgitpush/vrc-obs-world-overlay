@@ -9,19 +9,19 @@ let lastWorldId = null;
 let vrcxWorldId = null;
 let vrcxAuthCookie = null;
 
-function getVrcxPath() {
+const getVrcxPath = () => {
   return store.get('app.vrcx');
 }
 
-// Check for default VRCX installation and use it if the user hasn't set one already
-function checkVrcxInstallation() {
+// Estimate the VRCX installation
+const setVRCXPathFallback = () => {
   if (getVrcxPath()) return;
   const defaultPath = path.join(process.env.HOME || process.env.USERPROFILE, 'AppData', 'Roaming', 'VRCX');
   if (fs.existsSync(defaultPath)) store.set('app.vrcx', defaultPath);
 }
 
 // Query the database for the latest world id
-function queryDatabaseForWorldId(dbPath, callback) {
+const queryDatabaseForWorldId = (dbPath, callback) => {
   const db = new sqlite3.Database(path.join(dbPath, 'VRCX.sqlite3'), sqlite3.OPEN_READONLY, (err) => {
     if (err) {
       console.error('Error opening database:', err.message);
@@ -38,7 +38,7 @@ function queryDatabaseForWorldId(dbPath, callback) {
 }
 
 // Query the database for the VRChat auth cookie
-function queryDatabaseForAuthCookie(dbPath, callback) {
+const queryDatabaseForAuthCookie = (dbPath, callback) => {
   const db = new sqlite3.Database(path.join(dbPath, 'VRCX.sqlite3'), sqlite3.OPEN_READONLY, (err) => {
     if (err) {
       console.error('Error opening database:', err.message);
@@ -68,8 +68,26 @@ function queryDatabaseForAuthCookie(dbPath, callback) {
   });
 }
 
+// Check for world id change in the database
+const fetchAndHandleVRCXData = () => {
+  const dbPath = getVrcxPath();
+  if (!dbPath) return;
+
+  queryDatabaseForAuthCookie(dbPath, (err, authCookie) => {
+    if (err) return console.error('Error querying database:', err.message);
+    if (authCookie) vrcxAuthCookie = authCookie;
+  });
+
+  queryDatabaseForWorldId(dbPath, (err, worldId) => {
+    if (err) return console.error('Error querying database:', err.message);
+    if (worldId) vrcxWorldId = worldId;
+  });
+
+  if (vrcxWorldId) handleWorldChange();
+}
+
 // Update the stored world id and fetch new world data if needed
-function handleWorldChange() {
+const handleWorldChange = ()  => {
   if (lastWorldId !== vrcxWorldId) {
     lastWorldId = vrcxWorldId;
     console.log('World changed to:', vrcxWorldId);
@@ -78,7 +96,7 @@ function handleWorldChange() {
 }
 
 // Fetch world data from the VRChat API
-async function fetchWorldData() {
+const fetchWorldData = async () => {
   if (!vrcxWorldId) return;
 
   const url = `https://api.vrchat.cloud/api/1/worlds/${vrcxWorldId}`;
@@ -96,33 +114,12 @@ async function fetchWorldData() {
   }
 }
 
-// Check for world id change in the database
-function checkDatabaseForWorldId() {
-  const dbPath = getVrcxPath();
-  if (!dbPath) return;
+const initialize = () => {
+  setVRCXPathFallback();
 
-  queryDatabaseForAuthCookie(dbPath, (err, authCookie) => {
-    if (err) return console.error('Error querying database:', err.message);
-    if (authCookie) vrcxAuthCookie = authCookie;
-  });
-
-  queryDatabaseForWorldId(dbPath, (err, worldId) => {
-    if (err) return console.error('Error querying database:', err.message);
-    if (worldId) vrcxWorldId = worldId;
-  });
-
-  if (vrcxWorldId) handleWorldChange();
-}
-
-function startPeriodicCheck() {
   setInterval(() => {
-    checkDatabaseForWorldId();
+    fetchAndHandleVRCXData();
   }, 3000);
-}
-
-function initialize() {
-  checkVrcxInstallation();
-  startPeriodicCheck();
 }
 
 initialize();
