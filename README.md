@@ -3,7 +3,7 @@
 
 # VRChat OBS World Overlay
 
-This is an Open Broadcaster Software (OBS) Browser-Source Overlay, which displays information about the VRChat World you are currently in.
+This is an Open Broadcaster Software (OBS) Browser-Source Overlay, which displays information about the VRChat World you are currently in. This requires [VRCX](https://github.com/vrcx-team/VRCX) to be running in the background for it to work.
 
 https://github.com/user-attachments/assets/56dc1697-be2e-4b74-b7c0-f66923c22ce9
 
@@ -15,9 +15,9 @@ Support for macOS and Linux is not available at this time.
 
 ## Usage
 
-Once you are running the application, the overlay can be accessed at [http://localhost:1412/](http://localhost:1412/) which is the URL you will be using in your OBS Browser-Source.
+To use this overlay, **you must have [VRCX](https://github.com/vrcx-team/VRCX) running in the background**, as it provides the data required for functionality. The overlay fetches the last visited world and VRChat login details from VRCX to determine platform compatibility.
 
-You might need to specify the path to your VRCX installation’s AppData folder if its not in the expected default directory. This overlay relies on a database file provided by VRCX. Width and height should preferably be set to 1920x1080.
+Access the overlay at [http://localhost:1412/](http://localhost:1412/) in your OBS Browser Source. You may need to specify the path to your VRCX AppData folder if it's not in the default directory. The overlay relies on the database file from VRCX. Adjust the width and height to match your stream's canvas size, which is usually 1920x1080.
 
 ## Overlay structure
 
