@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="w-full h-full overflow-y-auto">
+    <div class="w-full h-full overflow-y-auto p-4">
       <component :is="currentPageComponent" />
     </div>
 
