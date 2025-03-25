@@ -1,5 +1,5 @@
 > [!NOTE]
-> The VRChat OBS World Overlay is still under development, and this repository is intended for public testing. Build instructions for developers may change at any time. If you encounter any issues, feel free to reach out for help by either [opening a GitHub issue](https://github.com/philippgitpush/vrc-obs-world-overlay/issues) or contacting me on Discord: @philippuccino
+> The VRChat OBS World Overlay is still under development, and this repository is intended for public testing. Build instructions for developers may change at any time. If you encounter any issues, feel free to reach out for help by either [opening a GitHub issue](https://github.com/philippgitpush/vrc-obs-world-overlay/issues) or contacting me on Discord: @philippharos
 
 # VRChat OBS World Overlay
 
@@ -15,7 +15,7 @@ Support for macOS and Linux is not available at this time.
 
 ## Usage
 
-To use this overlay, **you must have [VRCX](https://github.com/vrcx-team/VRCX) running in the background**, as it provides the data required for functionality. The overlay fetches the last visited world and VRChat login details from VRCX to determine platform compatibility.
+To use this overlay, **you must have [VRCX](https://github.com/vrcx-team/VRCX) running in the background**, as it provides the data required for functionality. The overlay [fetches the last visited world and VRChat login details from VRCX to determine platform compatibility](https://github.com/philippgitpush/vrc-obs-world-overlay/blob/c87f702909233bc117407a0d7c1893c590c05f00/src/electron/vrchat.js#L99-L115).
 
 Access the overlay at [http://localhost:1412/](http://localhost:1412/) in your OBS Browser Source. You may need to specify the path to your VRCX AppData folder if it's not in the default directory. The overlay relies on the database file from VRCX. Adjust the width and height to match your stream's canvas size, which is usually 1920x1080.
 
